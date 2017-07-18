@@ -35,7 +35,7 @@ class Welcome extends CI_Controller {
     public function output($output = null) {
         $this->load->view('example.php', (array) $output);
     }
-    
+
     function unique_field_name($field_name) {
         return 's' . substr(md5($field_name), 0, 8); //This s is because is better for a string to begin with a letter and not with a number
     }
@@ -43,7 +43,6 @@ class Welcome extends CI_Controller {
     public function email() {
         $crud = new Grocery_CRUD();
 
-        $crud->set_theme('datatables');
         $crud->set_table('email');
         $crud->set_subject('Email');
 
@@ -52,33 +51,44 @@ class Welcome extends CI_Controller {
         $output = $crud->render();
         $this->output($output);
     }
-    
-    public function hosting(){
+
+    public function niche() {
         $c = new Grocery_CRUD();
         
+        $c->set_table('niche');
+        $c->set_subject('Niche');
+        
+        $this->output($c->render());
+    }
+
+    public function hosting() {
+        $c = new Grocery_CRUD();
+
         $c->set_table('hosting');
         $c->set_subject('Hosting');
         $c->callback_column($this->unique_field_name('email'), array($this, 'link_email'));
         $c->set_relation('email', 'email', 'email');
-        
+
         $o = $c->render();
         $this->output($o);
     }
-    
+
     public function link_email($value, $row) {
         return '<a href="' . site_url('welcome/email/read/' . $row->email) . '">' . $value . '</a>';
     }
-    
-    public function domain(){
+
+    public function domain() {
         $c = new Grocery_CRUD();
-        
+
         $c->set_table('domain');
         $c->set_subject('Domain');
         $c->set_relation('email', 'email', 'email')
                 ->set_relation('webmaster', 'email', 'email')
-                ->set_relation('adsense', 'email', 'email');
+                ->set_relation('adsense', 'email', 'email')
+                ->set_relation('niche', 'niche', 'niche');
         $c->set_relation('hosting', 'hosting', 'hosting');
-        
+        $c->unset_columns($this->unique_field_name('webmaster'), $this->unique_field_name('adsense'));
+
         $this->output($c->render());
     }
 
