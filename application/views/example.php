@@ -13,6 +13,9 @@ foreach($css_files as $file): ?>
 </head>
 <body>
 	<div>
+		<a href='<?php echo site_url('welcome/domain')?>'>Domain</a> |
+		<a href='<?php echo site_url('welcome/email')?>'>Email</a> |
+		<a href='<?php echo site_url('welcome/hosting')?>'>Hosting</a> |
 		<a href='<?php echo site_url('examples/customers_management')?>'>Customers</a> |
 		<a href='<?php echo site_url('examples/orders_management')?>'>Orders</a> |
 		<a href='<?php echo site_url('examples/products_management')?>'>Products</a> |
