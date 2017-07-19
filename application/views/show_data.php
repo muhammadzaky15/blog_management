@@ -17,7 +17,7 @@
             <a href='<?php echo site_url('welcome/hosting') ?>'>Hosting</a> |
             <a href='<?php echo site_url('welcome/niche') ?>'>Niche</a> |
             <a href='<?php echo site_url('welcome/backlink') ?>'>Backlink</a> |
-            <a href='<?php echo site_url('welcome/domain_backlink') ?>'>Domain Backlink</a>   
+            <a href='<?php echo site_url('welcome/list_backlink') ?>'>Domain Backlink</a>   
 
         </div>
         <div style='height:20px;'></div>  

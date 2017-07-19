@@ -23,6 +23,7 @@ class Welcome extends CI_Controller {
         parent::__construct();
 
         $this->load->database();
+        $this->load->model('m_backlink');
         $this->load->helper('url');
 
         $this->load->library('grocery_CRUD');
@@ -97,29 +98,36 @@ class Welcome extends CI_Controller {
 
         $c->set_table('backlink');
         $c->set_subject('Backlink');
-        
+
         $c->change_field_type('type', 'enum', array('Comment', 'WEB 2.0', 'Link Profile', 'Redirect', 'Forum'));
         $c->change_field_type('rating', 'enum', array('Very Good', 'Good', 'Not Bad'));
         $c->change_field_type('email_verification', 'enum', array('yes', 'No'));
         $c->unset_columns('email', 'username', 'password');
-        
-        
+
+
         $this->output($c->render());
     }
-    
-    public function no_link(){
+
+    public function no_link() {
         return '#';
     }
 
-        public function domain_backlink(){
+    public function domain_backlink() {
         $c = new Grocery_CRUD();
-        
+
         $c->set_table('domain_backlink');
         $c->set_relation('domain', 'domain', 'domain');
         $c->set_relation('backlink', 'backlink', 'backlink');
         $c->change_field_type('indexed', 'enum', array('yes', 'No'));
 //        $c->set_relation_n_n('backlink', 'domain_backlink', 'backlink', 'domain', 'backlink', 'backlink');
-        
+
         $this->output($c->render());
+    }
+    
+    public function list_backlink(){
+        $data['list_backlink'] = $this->m_backlink->list_backlink();
+        $data['list_domain'] = $this->m_backlink->list_domain();
+        $data['domain_backlink'] = $this->m_backlink->list_domain_backlink();
+        $this->load->view('list_backlink', $data);
     }
 }
