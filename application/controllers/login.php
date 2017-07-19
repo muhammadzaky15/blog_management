@@ -11,7 +11,8 @@ class Login extends CI_Controller {
     }
 
     function index(){
-    	$this->load->view('login');
+        $this->load->view('login');
+
     }
 
     function login_act(){
@@ -36,6 +37,11 @@ class Login extends CI_Controller {
     	}
 
     	
+    }
+
+    function logout(){
+        $this->session->sess_destroy();
+        redirect(base_url('index.php/login'));
     }
 
 }

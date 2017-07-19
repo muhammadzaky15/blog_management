@@ -26,6 +26,10 @@ class Welcome extends CI_Controller {
         $this->load->helper('url');
 
         $this->load->library('grocery_CRUD');
+
+        if($this->session->userdata('status') != "login"){
+            redirect(base_url("index.php/login"));
+        }
     }
 
     public function index() {
