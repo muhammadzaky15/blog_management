@@ -12,8 +12,8 @@
             <a href='<?php echo site_url('welcome/hosting') ?>'>Hosting</a> |
             <a href='<?php echo site_url('welcome/niche') ?>'>Niche</a> |
             <a href='<?php echo site_url('welcome/backlink') ?>'>Backlink</a> |
-            <a href='<?php echo site_url('welcome/list_backlink') ?>'>Domain Backlink</a>   
-
+            <a href='<?php echo site_url('welcome/list_backlink') ?>'>List Backlink</a> |  
+            <a href='<?php echo site_url('login/logout') ?>'>Logout</a>   
         </div>
         <div class="container">
             <h2>List Backlink</h2>
@@ -59,7 +59,9 @@
                                     </div> 
                                 <?php }
                                 ?></td>
-                            <td>mary@example.com</td>
+                            <td>
+                                <a href="<?php echo base_url().'index.php/welcome/backlink/read/'.$backlink->id; ?>">View</a>
+                            </td>
                         </tr>
                     <?php }
                     ?>
@@ -193,7 +195,9 @@
                 data: data_backlink,
                 type: 'POST',
                 success: function (msg) {
+                    $('#domain_modal').modal('hide');
                     $('.bl#' + $('#domain').val()).css('background', '#B0BED9');
+
                 }
             });
         });

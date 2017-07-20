@@ -24,9 +24,11 @@ class Login extends CI_Controller {
     		);
     	$cek = $this->user->cek_login($where);
     	if($cek > 0){
+            $id = $this->user->get_id($username);
     		$session  = array(
-    		'nama' => $username,
-    		'status' => 'login'
+            'id'      => $id,
+    		'nama'    => $username,
+    		'status'  => 'login'
     		);
 
     		$this->session->set_userdata($session);
