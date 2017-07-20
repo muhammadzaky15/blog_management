@@ -28,7 +28,7 @@ class Welcome extends CI_Controller {
 
         $this->load->library('grocery_CRUD');
 
-        if($this->session->userdata('status') != "login"){
+        if ($this->session->userdata('status') != "login") {
             redirect(base_url("index.php/login"));
         }
     }
@@ -123,15 +123,36 @@ class Welcome extends CI_Controller {
         $c->set_relation('domain', 'domain', 'domain');
         $c->set_relation('backlink', 'backlink', 'backlink');
         $c->change_field_type('indexed', 'enum', array('yes', 'No'));
-//        $c->set_relation_n_n('backlink', 'domain_backlink', 'backlink', 'domain', 'backlink', 'backlink');
 
         $this->output($c->render());
     }
-    
-    public function list_backlink(){
+
+    public function list_backlink() {
         $data['list_backlink'] = $this->m_backlink->list_backlink();
         $data['list_domain'] = $this->m_backlink->list_domain();
         $data['domain_backlink'] = $this->m_backlink->list_domain_backlink();
+        $data['list_email'] = $this->m_backlink->list_email();
         $this->load->view('list_backlink', $data);
     }
+
+    public function domain_backlink_insert() {
+        $this->m_backlink->insert('domain_backlink', $this->input->post());
+        print_r($this->input->post());
+    }
+    
+    public function detail_backlinked(){
+        $bl = $this->m_backlink->get_data_where('domain_backlink',array('id' => $this->input->post('backlinkedid')))->row();
+        $html = '<ul>'
+                . '<li class="list-group-item">Domain : ' . $bl->domain . '</li>'
+                . '<li class="list-group-item">Backlink: ' . $bl->backlink . '</li>'
+                . '<li class="list-group-item">url: ' . $bl->url . '</li>'
+                . '<li class="list-group-item">email: ' . $bl->email . '</li>'
+                . '<li class="list-group-item">username: ' . $bl->username . '</li>'
+                . '<li class="list-group-item">password: ' . $bl->password . '</li>'
+                . '<li class="list-group-item list-group-item-success">indexed: ' . $bl->indexed . '</li>'
+                . '<li class="list-group-item">Keyword: ' . $bl->keyword . '</li>'
+                . '</ul>';
+        echo $html;
+    }
+
 }
