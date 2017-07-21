@@ -73,7 +73,10 @@ class Welcome extends CI_Controller {
         $c->set_subject('Hosting');
         $c->callback_column($this->unique_field_name('email'), array($this, 'link_email'));
         $c->set_relation('email', 'email', 'email');
-
+        $c->unset_columns('iduser');
+        $c->field_type('iduser','hidden');
+        $c->callback_before_insert(array($this,'user'));
+        $c->where(array('iduser' => $this->session->userdata('id')));
         $o = $c->render();
         $this->output($o);
     }
@@ -92,6 +95,9 @@ class Welcome extends CI_Controller {
                 ->set_relation('adsense', 'email', 'email')
                 ->set_relation('niche', 'niche', 'niche');
         $c->set_relation('hosting', 'hosting', 'hosting');
+        $c->field_type('iduser','hidden');
+        $c->callback_before_insert(array($this,'user'));
+        $c->where(array('domain.iduser' => $this->session->userdata('id')));
         $c->unset_columns($this->unique_field_name('webmaster'), $this->unique_field_name('adsense'));
 
         $this->output($c->render());
@@ -106,10 +112,18 @@ class Welcome extends CI_Controller {
         $c->change_field_type('type', 'enum', array('Comment', 'WEB 2.0', 'Link Profile', 'Redirect', 'Forum'));
         $c->change_field_type('rating', 'enum', array('Very Good', 'Good', 'Not Bad'));
         $c->change_field_type('email_verification', 'enum', array('yes', 'No'));
-        $c->unset_columns('email', 'username', 'password');
+        $c->field_type('iduser','hidden');
+        $c->callback_before_insert(array($this,'user' ));
+        $c->unset_columns('email', 'username', 'password','iduser');
 
 
         $this->output($c->render());
+    }
+
+    function user($arr_id){
+        $id = $this->session->userdata('id');
+        $arr_id['iduser']  = $id;
+        return $arr_id;
     }
 
     public function no_link() {
