@@ -49,7 +49,7 @@ class Welcome extends CI_Controller {
         $crud = new Grocery_CRUD();
 
         $crud->set_table('email');
-        $crud->set_subject('Email');
+        $crud->set_subject('Email');        
 
         $crud->required_fields('password', 'email');
 
